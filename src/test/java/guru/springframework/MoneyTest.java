@@ -7,30 +7,29 @@ public class MoneyTest {
 
     @Test
     void testMultiplicationDollar(){
-        Dollar five = new Dollar(5);
-        Dollar product = five.times(2);
-        Assertions.assertEquals(new Dollar(10),  product);
-        product = five.times(3);
-        Assertions.assertEquals(new Dollar(15), product);
+        Money five = Money.dollar(5);
+        Assertions.assertEquals(Money.dollar(10),  five.times(2));
+        Assertions.assertEquals(Money.dollar(15), five.times(3));
     }
 
     @Test
     void testEqualityDollar(){
-        Assertions.assertEquals(new Dollar(5), new Dollar(5));
-        Assertions.assertNotEquals(new Dollar(5), new Dollar(8));
+        Assertions.assertEquals(Money.dollar(5), Money.dollar(5));
+        Assertions.assertNotEquals(Money.dollar(5), Money.dollar(8));
+        Assertions.assertNotEquals(Money.dollar(5), Money.franc(5));
     }
 
     @Test
     void testMultiplicationFranc(){
-        Franc five = new Franc(5);
-        Franc product = five.times(2);
-        Assertions.assertEquals(new Franc(10),  product);
-        product = five.times(3);
-        Assertions.assertEquals(new Franc(15), product);
+        Money five = Money.franc(5);
+        Assertions.assertEquals(Money.franc(10),  five.times(2));
+        Assertions.assertEquals(Money.franc(15), five.times(3));
     }
 
     @Test
     void testEqualityFranc(){
-        Assertions.assertEquals(new Franc(5), new Franc(5));
+        Assertions.assertEquals(Money.franc(5), Money.franc(5));
+        Assertions.assertNotEquals(Money.franc(5), Money.franc(8));
+        Assertions.assertNotEquals(Money.franc(5), Money.dollar(5));
     }
 }
