@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class MoneyTest {
 
     @Test
-    void testMultiplication(){
+    void testMultiplication() {
         Money fiveDollars = Money.dollar(5);
         Assertions.assertEquals(Money.dollar(10), fiveDollars.times(2));
         Assertions.assertEquals(Money.dollar(15), fiveDollars.times(3));
@@ -17,7 +17,7 @@ public class MoneyTest {
     }
 
     @Test
-    void testEquality(){
+    void testEquality() {
         Assertions.assertEquals(Money.dollar(5), Money.dollar(5));
         Assertions.assertNotEquals(Money.dollar(5), Money.dollar(8));
         Assertions.assertNotEquals(Money.dollar(5), Money.franc(5));
@@ -27,8 +27,41 @@ public class MoneyTest {
     }
 
     @Test
-    void testCurrency(){
+    void testCurrency() {
         Assertions.assertEquals("USD", Money.dollar(1).currency());
         Assertions.assertEquals("CHF", Money.franc(1).currency());
+    }
+
+    @Test
+    void testSimpleAddition() {
+        Money five = Money.dollar(5);
+        Expression sum = five.plus(five);
+        Bank bank = new Bank();
+        Money reduced = bank.reduce(sum, "USD");
+        Assertions.assertEquals(Money.dollar(10), reduced);
+    }
+
+    @Test
+    void testPlusReturnSum() {
+        Money five = Money.dollar(5);
+        Expression result = five.plus(five);
+        Sum sum = (Sum) result;
+        Assertions.assertEquals(five, sum.augend);
+        Assertions.assertEquals(five, sum.addend);
+    }
+
+    @Test
+    void testReduceSum() {
+        Expression sum = new Sum(Money.dollar(3), Money.dollar(4));
+        Bank bank = new Bank();
+        Money result = bank.reduce(sum, "USD");
+        Assertions.assertEquals(Money.dollar(7), result);
+    }
+
+    @Test
+    void testReduceMoney() {
+        Bank bank = new Bank();
+        Money result = bank.reduce(Money.dollar(1), "USD");
+        Assertions.assertEquals(Money.dollar(1), result);
     }
 }
